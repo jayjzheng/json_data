@@ -28,7 +28,7 @@ module JSONData
     def test_data_class_create_object
       klass.data_class Temp
 
-      subject.each { |e| assert_kind_of Temp, e }
+      subject.each { |e| assert_instance_of Temp, e }
     end
 
     def test_valid_true
@@ -55,10 +55,23 @@ module JSONData
       refute subject.empty?, 'subject should not be empty'
     end
 
+    def test_custom_formatter
+      formatter = lambda do |raw|
+        raw.map { |h| h.merge(random: 123) }
+      end
+
+      klass.data_class Temp, formatter: formatter
+
+      subject.each {|e| assert_equal 123, e.random }
+    end
+
     private
 
     class Temp
       include JSONData::Data
+
+      data_attr :random
+      data_attr :foo
     end
 
     def klass
@@ -74,7 +87,7 @@ module JSONData
     end
 
     def array_data_source
-      @array_data_source ||= [{foo: 'bar'}, {baz: 'qux'}]
+      @array_data_source ||= [{foo: 'bar'}, {foo: 'qux'}]
     end
 
     def json_data_source
