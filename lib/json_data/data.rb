@@ -40,7 +40,7 @@ module JSONData
     end
 
     def data_source=(json)
-      data_source = json.is_a?(Hash) ? json : JSON.parse(json)
+      data_source = json.is_a?(String) ? JSON.parse(json) : json
       @data_source = OpenStruct.new(data_source)
     end
 

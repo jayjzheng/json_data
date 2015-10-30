@@ -7,6 +7,10 @@ module JSONData
       assert_respond_to klass, :data_attr
     end
 
+    def test_work_with_nil_data_source
+      assert_instance_of klass, klass.new(data_source: nil)
+    end
+
     def test_work_with_json_data_source
       assert_instance_of klass, klass.new(data_source: json_data_source)
     end

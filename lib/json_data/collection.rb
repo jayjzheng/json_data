@@ -22,7 +22,7 @@ module JSONData
     end
 
     def data_source=(json)
-      @data_source = json.is_a?(Array) ? json : JSON.parse(json)
+      @data_source = json.is_a?(String) ? JSON.parse(json) : json
       create_data_objects
     end
 
