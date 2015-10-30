@@ -26,10 +26,14 @@ module JSONData
     end
 
     def test_data_class_create_object
+      klass.data_class Temp
+
       subject.each { |e| assert_kind_of Temp, e }
     end
 
     def test_valid_true
+      klass.data_class Temp
+
       assert subject.valid?, 'subject should be valid'
     end
 
@@ -58,11 +62,7 @@ module JSONData
     end
 
     def klass
-      @klass ||= Class.new do
-        include JSONData::Collection
-
-        data_class Temp
-      end
+      @klass ||= Class.new { include JSONData::Collection }
     end
 
     def subject

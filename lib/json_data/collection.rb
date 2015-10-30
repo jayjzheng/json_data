@@ -6,9 +6,8 @@ module JSONData
       def data_class(klass, options = {})
         formatter = options.fetch(:formatter) { lambda {|json| json} }
 
-        define_method :data_source= do |json|
-          raw = json.is_a?(Array) ? json : JSON.parse(json)
-          @data_source = formatter.call(raw).map {|data| klass.new(data_source: data) }
+        define_method :create_data_objects do
+          formatter.call(data_source).map! {|data| klass.new(data_source: data) }
         end
       end
     end
@@ -20,6 +19,11 @@ module JSONData
 
     def initialize(options = {})
       self.data_source = options.fetch(:data_source) { [] }
+    end
+
+    def data_source=(json)
+      @data_source = json.is_a?(Array) ? json : JSON.parse(json)
+      create_data_objects
     end
 
     def each(&block)
@@ -37,5 +41,8 @@ module JSONData
     private
 
     attr_reader :data_source
+
+    def create_data_objects
+    end
   end
 end
