@@ -1,5 +1,4 @@
 require 'ostruct'
-require 'json'
 
 module JSONData
   module Data
@@ -40,8 +39,7 @@ module JSONData
     end
 
     def data_source=(json)
-      data_source = json.is_a?(String) ? JSON.parse(json) : json
-      @data_source = OpenStruct.new(data_source)
+      @data_source = OpenStruct.new(Handler.safe_parse(json))
     end
 
     def valid?

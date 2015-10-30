@@ -1,5 +1,3 @@
-require 'json'
-
 module JSONData
   module Collection
     module ClassMethods
@@ -22,7 +20,7 @@ module JSONData
     end
 
     def data_source=(json)
-      @data_source = json.is_a?(String) ? JSON.parse(json) : json
+      @data_source = Handler.safe_parse(json)
       create_data_objects
     end
 
