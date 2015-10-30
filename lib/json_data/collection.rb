@@ -7,7 +7,7 @@ module JSONData
         formatter = options.fetch(:formatter) { lambda {|json| json} }
 
         define_method :create_data_objects do
-          formatter.call(data_source).map! {|data| klass.new(data_source: data) }
+          @data_source = formatter.call(data_source).map {|data| klass.new(data_source: data) }
         end
       end
     end
