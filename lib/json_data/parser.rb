@@ -1,7 +1,7 @@
 require 'json'
 
 module JSONData
-  class Handler
+  class Parser
     def parse(raw_json)
       raw_json.is_a?(String) ? JSON.parse(raw_json) : raw_json
     end

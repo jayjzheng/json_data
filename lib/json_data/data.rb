@@ -35,12 +35,12 @@ module JSONData
     end
 
     def initialize(options = {})
-      @handler = options.fetch(:handler) { Handler.new }
+      @parser = options.fetch(:parser) { Parser.new }
       self.data_source = options.fetch(:data_source) { JSON.generate({}) }
     end
 
     def data_source=(json)
-      @data_source = OpenStruct.new(handler.parse(json))
+      @data_source = OpenStruct.new(parser.parse(json))
     end
 
     def valid?
@@ -53,6 +53,6 @@ module JSONData
 
     private
 
-    attr_reader :data_source, :handler
+    attr_reader :data_source, :parser
   end
 end

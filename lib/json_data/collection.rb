@@ -18,12 +18,12 @@ module JSONData
     end
 
     def initialize(options = {})
-      @handler = options.fetch(:handler) { Handler.new }
+      @parser = options.fetch(:parser) { Parser.new }
       self.data_source = options.fetch(:data_source) { [] }
     end
 
     def data_source=(json)
-      @data_source = handler.parse(json)
+      @data_source = parser.parse(json)
       create_data_objects
     end
 
@@ -41,7 +41,7 @@ module JSONData
 
     private
 
-    attr_reader :data_source, :handler
+    attr_reader :data_source, :parser
 
     def create_data_objects
     end
