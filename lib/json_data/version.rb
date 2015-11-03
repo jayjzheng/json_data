@@ -1,3 +1,3 @@
-module JsonData
-  VERSION = "0.0.3"
+module JSONData
+  VERSION = '0.0.4'
 end

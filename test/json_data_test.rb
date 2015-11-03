@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class JsonDataTest < Minitest::Test
+class JSONDataTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::JsonData::VERSION
+    refute_nil ::JSONData::VERSION
   end
 end

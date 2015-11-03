@@ -62,7 +62,7 @@ module JSONData
 
       klass.data_class Temp, formatter: formatter
 
-      subject.each {|e| assert_equal 123, e.random }
+      subject.each { |e| assert_equal 123, e.random }
     end
 
     private
@@ -83,11 +83,11 @@ module JSONData
     end
 
     def invalid_data_source
-      @invalid_data_source ||= "some random string"
+      @invalid_data_source ||= 'some random string'
     end
 
     def array_data_source
-      @array_data_source ||= [{foo: 'bar'}, {foo: 'qux'}]
+      @array_data_source ||= [{ foo: 'bar' }, { foo: 'qux' }]
     end
 
     def json_data_source

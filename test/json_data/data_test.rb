@@ -71,11 +71,11 @@ module JSONData
     end
 
     def invalid_data_source
-      @invalid_data_source ||= "some random string"
+      @invalid_data_source ||= 'some random string'
     end
 
     def hash_data_source
-      @hash_data_source ||= {foo: 'bar'}
+      @hash_data_source ||= { foo: 'bar' }
     end
 
     def json_data_source

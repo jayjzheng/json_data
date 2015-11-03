@@ -2,10 +2,12 @@ module JSONData
   module Collection
     module ClassMethods
       def data_class(klass, options = {})
-        formatter = options.fetch(:formatter) { lambda {|json| json} }
+        formatter = options.fetch(:formatter) { ->(json) { json } }
 
         define_method :create_data_objects do
-          @data_source = formatter.call(data_source).map {|data| klass.new(data_source: data) }
+          @data_source = formatter.call(data_source).map do |data|
+            klass.new(data_source: data)
+          end
         end
       end
     end
@@ -30,7 +32,7 @@ module JSONData
     end
 
     def valid?
-      !empty? && all? { |d| d.valid? }
+      !empty? && all?(&:valid?)
     end
 
     def empty?
