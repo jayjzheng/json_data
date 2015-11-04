@@ -1,4 +1,5 @@
 # JsonData
+[![Code Climate](https://codeclimate.com/github/jayjzheng/json_data/badges/gpa.svg)](https://codeclimate.com/github/jayjzheng/json_data)
 
 ## Installation
 
