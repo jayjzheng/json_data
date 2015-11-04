@@ -19,7 +19,129 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic Usage
+```ruby
+require 'json_data'
+
+class MyClass
+  include JSONData::Data
+
+  data_attr :foo
+end
+
+data_source = JSON.generate(foo: 'bar') # or { foo: 'bar' }
+
+my_class = MyClass.new(data_source: data_source)
+my_class.foo # => 'bar'
+
+my_class = MyClass.new
+my_class.data_source = data_source
+my_class.foo # => 'bar'
+```
+
+### Field Mapping
+```ruby
+class MyClass
+  include JSONData::Data
+
+  data_attr :foo, as: :bar
+end
+
+data_source = JSON.generate(foo: 'qux')
+
+my_class = MyClass.new(data_source: data_source)
+my_class.bar # => 'qux'
+```
+
+### Map to Ather JSONDAta Class
+```ruby
+class Class1
+  include JSONData::Data
+
+  data_attr :foo
+end
+
+class Class2
+  include JSONData::Data
+
+  data_attr :bar, data_class: Class1
+end
+
+data_source = JSON.generate(bar: {foo: 'qux'})
+
+class2 = Class2.new(data_source: data_source)
+class2.bar # => <Class1>
+class2.bar.foo # => 'qux'
+```
+
+### Required Field
+```ruby
+class MyClass
+  include JSONData::Data
+
+  data_attr :foo, required: true
+end
+
+data_source = JSON.generate(foo: nil)
+
+my_class = MyClass.new(data_source: data_source)
+
+my_class.foo # => nil
+my_class.valid? # => false
+```
+
+### Data Collection
+```ruby
+class MyClass
+  include JSONData::Data
+
+  data_attr :foo
+end
+
+class Collection
+  include JSONData::Collection
+
+  data_class MyClass
+end
+
+data_source = JSON.generate([{foo: 'bar'}, {foo: 'qux'}]) # or [{foo: 'bar'}, {foo: 'qux'}]
+
+collection = Collection.new(data_source: data_source)
+
+collection.count # => 2
+collection.map(&:class) # => [ MyClass, MyClass ]
+collection.map(&:foo) # => [ "bar", "qux" ]
+```
+
+### Data Collection Custom Formatter
+```ruby
+class MyClass
+  include JSONData::Data
+
+  data_attr :foo
+  data_attr :id
+end
+
+class Collection
+  include JSONData::Collection
+
+  formatter = lambda do |raw|
+    raw.map do |id, value|
+      value[:id] = id
+      value
+    end
+  end
+
+  data_class MyClass, formatter: formatter
+end
+
+data_source = JSON.generate('111' => {foo: 'bar'}, '222' => {foo: 'qux'})
+
+collection = Collection.new(data_source: data_source)
+
+collection.map(&:foo) # => [ "bar", "qux" ]
+collection.map(&:id) # =>  [ "111", "222" ]
+```
 
 ## Development
 
